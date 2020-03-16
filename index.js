@@ -20,6 +20,7 @@ const ballots = {}
 
 bot.on('message', msg => {
   const channel = msg.channel.id
+  const guildMember = msg.guild.member(msg.author.id)
 
   args = msg.content.split(' ')
   args.shift()
@@ -33,7 +34,7 @@ Vote on a ballot item with /exclude <target>
 End a voting round with /round`)
     }
 
-    if (!msg.author.hasPermission('ADMINISTRATOR')) {
+    if (!guildMember.hasPermission('ADMINISTRATOR')) {
       return msg.reply(`Only administrators can use this command.`)
     }
 
@@ -64,7 +65,7 @@ End a voting round with /round`)
       return msg.reply(`Afraid there is no ballot running for this channel at the moment.`)
     }
 
-    if (!msg.author.hasPermission('ADMINISTRATOR')) {
+    if (!guildMember.hasPermission('ADMINISTRATOR')) {
       return msg.reply(`Only administrators can use this command.`)
     }
 
