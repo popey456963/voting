@@ -85,5 +85,12 @@ End a voting round with /round`)
     } else {
       return msg.channel.send(`We are onto round ${ballots[channel].round} of voting.  Participants: ${ballots[channel].targets.join(', ')}`)
     }
+  } else if (msg.content.startsWith('/mirandainvaded')) {
+    if (!guildMember.hasPermission('ADMINISTRATOR')) {
+      return msg.reply(`Only administrators can use this command.`)
+    }
+
+    ballots[channel].running = false
+    return msg.reply(`Your will be done.`)
   }
 });
