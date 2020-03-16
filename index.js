@@ -24,13 +24,17 @@ bot.on('message', msg => {
   args = msg.content.split(' ')
   args.shift()
 
-  console.log(msg.username, msg.content)
+  console.log(`${msg.author.username}: ${msg.content}`)
 
   if (msg.content.startsWith('/ballot')) {
     if (args.length < 2) {
       return msg.reply(`Start a ballot with: /ballot <target> <target2> <target3>
 Vote on a ballot item with /exclude <target>
 End a voting round with /round`)
+    }
+
+    if (!msg.author.hasPermission('ADMINISTRATOR')) {
+      return msg.reply(`Only administrators can use this command.`)
     }
 
     msg.channel.send(`Starting an anti-ballot with ${args.length} entries: ${args.join(', ')}.  Vote with \`/exclude <item>\``)
@@ -58,6 +62,10 @@ End a voting round with /round`)
   } else if (msg.content.startsWith('/round')) {
     if (!(channel in ballots) || !ballots[channel].running) {
       return msg.reply(`Afraid there is no ballot running for this channel at the moment.`)
+    }
+
+    if (!msg.author.hasPermission('ADMINISTRATOR')) {
+      return msg.reply(`Only administrators can use this command.`)
     }
 
     ballots[channel].round += 1
